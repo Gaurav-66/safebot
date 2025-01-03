@@ -1,18 +1,119 @@
 [
     {
-        "question": "What is your name?",
-        "answer": "I am a chatbot powered Safe."
+      "question": "What is the name of your company?",
+      "answer": "Sital Agri Farms and equipments"
     },
     {
-        "question": "How can I contact support?",
-        "answer": "You can contact support at support@example.com."
+      "question": "What industry does your company operate in?",
+      "answer": "Auto Spare Parts"
     },
     {
-        "question": "What is AI?",
-        "answer": "AI stands for Artificial Intelligence."
+      "question": "What types of products do you offer?",
+      "answer": "Tractor Spare Parts, Construction Equipment Parts, OEM and Genuine Parts"
     },
     {
-        "question": "What is machine learning?",
-        "answer": "Machine learning is a subset of AI that involves training algorithms on data to make predictions."
+      "question": "What is your website URL?",
+      "answer": "https://www.safesparesonline.com"
+    },
+    {
+      "question": "What is Sital Agri about?",
+      "answer": "Sital Agri specializes in providing high-quality spare parts for tractors and construction machinery, focusing on genuine and OEM parts with seamless online delivery."
+    },
+    {
+      "question": "Do you offer doorstep delivery?",
+      "answer": "Yes, we provide doorstep delivery for all orders."
+    },
+    {
+      "question": "How can I check part compatibility?",
+      "answer": "We offer an online compatibility tool and expert support for checking product compatibility."
+    },
+    {
+      "question": "Can I get expert recommendations?",
+      "answer": "Yes, we have experienced professionals to guide you in selecting the right parts."
+    },
+    {
+      "question": "What customer support options do you offer?",
+      "answer": "We provide 24/7 support through live chat, email, and phone."
+    },
+    {
+      "question": "What brands do you carry?",
+      "answer": "CNH, JCB, Case, John Deere, Mahindra"
+    },
+    {
+      "question": "What payment methods do you accept?",
+      "answer": "Credit/Debit Cards, Net Banking, Cash on Delivery (COD), UPI Payments"
+    },
+    {
+      "question": "Are the transactions secure?",
+      "answer": "Yes, we use an encrypted payment gateway to ensure secure transactions."
+    },
+    {
+      "question": "Do you offer installment payment options?",
+      "answer": "Yes, installment payments are available for select high-value orders."
+    },
+    {
+      "question": "What is the return time frame?",
+      "answer": "Returns are accepted within 30 days of purchase."
+    },
+    {
+      "question": "What are the return conditions?",
+      "answer": "Items must be unused, uninstalled, and in their original packaging."
+    },
+    {
+      "question": "How are refunds processed?",
+      "answer": "Refunds are processed to the original payment method within 7-10 business days."
+    },
+    {
+      "question": "Do you offer international shipping?",
+      "answer": "Yes, we offer shipping to several countries worldwide."
+    },
+    {
+      "question": "What is the typical shipping time?",
+      "answer": "Orders are usually delivered within 5-7 business days for domestic locations."
+    },
+    {
+      "question": "Can I track my orders?",
+      "answer": "Yes, tracking details are provided for all shipments."
+    },
+    {
+      "question": "Do you offer warranty on parts?",
+      "answer": "Yes, we offer a warranty on select products. Warranty details are available on each product page."
+    },
+    {
+      "question": "How do I return a product?",
+      "answer": "To return a product, ensure it meets the return conditions and follow the steps in our return policy."
+    },
+    {
+      "question": "Do you provide installation support?",
+      "answer": "We do not provide direct installation services but offer guidance and documentation for installation."
+    },
+    {
+      "question": "What is your customer service phone number?",
+      "answer": "+91-XXXXXXXXXX"
+    },
+    {
+      "question": "What is your support email?",
+      "answer": "support@safesparesonline.com"
+    },
+    {
+      "question": "When is customer support available?",
+      "answer": "24/7"
+    },
+    {
+      "question": "Where is your store located?",
+      "answer": "India"
+    },
+    {
+      "question": "What is your store's address?",
+      "answer": "Plot 123, ABC Industrial Area, XYZ City"
+    },
+    {
+      "question": "Where can I follow you on Facebook?",
+      "answer": "https://www.facebook.com/sitalagri"
+    },
+    {
+      "question": "Where can I follow you on Instagram?",
+      "answer": "https://www.instagram.com/sitalagri"
     }
-]
+  ]
+  
