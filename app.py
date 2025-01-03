@@ -1,96 +1,47 @@
 from flask import Flask, request, jsonify
-import random
+from flask_cors import CORS
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 import json
 import os
+import random
 import logging
-import math
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
-from collections import Counter
-from flask_cors import CORS  # Import the CORS module
 
-# Download necessary NLTK data files (only once)
-import nltk
-nltk.download('punkt')
+# Set up logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-nltk.download('stopwords')
-nltk.download('wordnet')
-
-# Setup logging for better monitoring and debugging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
+# Flask app setup
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)
 
-# Preprocessing utilities
-def preprocess(text):
-    """Tokenize, remove stopwords, and lemmatize the input text."""
-    lemmatizer = WordNetLemmatizer()
-    stop_words = set(stopwords.words('english'))
-
-    tokens = word_tokenize(text.lower())
-    tokens = [lemmatizer.lemmatize(word) for word in tokens if word.isalnum() and word not in stop_words]
-    return tokens
-
-# Load knowledge base from the provided file
+# Load the knowledge base
 def load_knowledge_base(filepath):
-    """Load the custom knowledge base from a JSON file."""
+    """Load the knowledge base from a JSON file."""
     if os.path.exists(filepath):
-        try:
-            with open(filepath, 'r') as file:
-                knowledge_base = json.load(file)
-                # Validate structure of knowledge base
-                if not all('question' in entry and 'answer' in entry for entry in knowledge_base):
-                    raise ValueError("Knowledge base entries must contain 'question' and 'answer' fields.")
-                return knowledge_base
-        except json.JSONDecodeError:
-            logging.error("Error: The file is not a valid JSON.")
-        except ValueError as ve:
-            logging.error(f"Error: {ve}")
-        return []
+        with open(filepath, 'r') as file:
+            return json.load(file)
     else:
         logging.error(f"Error: The file {filepath} does not exist.")
         return []
 
-# Vectorize text (convert tokens to a frequency vector)
-def vectorize(tokens):
-    """Convert tokens to a frequency vector."""
-    return Counter(tokens)
-
-# Compute cosine similarity between two vectors
-def cosine_similarity(vec1, vec2):
-    """Calculate cosine similarity between two frequency vectors."""
-    intersection = set(vec1.keys()) & set(vec2.keys())
-    numerator = sum([vec1[x] * vec2[x] for x in intersection])
-
-    sum1 = sum([val**2 for val in vec1.values()])
-    sum2 = sum([val**2 for val in vec2.values()])
-    denominator = math.sqrt(sum1) * math.sqrt(sum2)
-
-    return numerator / denominator if denominator else 0.0
-
-# Find the best match from the knowledge base
+# Find the best match using TF-IDF
 def find_best_match(user_input, knowledge_base):
-    """Find the most relevant response from the knowledge base."""
-    user_tokens = preprocess(user_input)
-    user_vector = vectorize(user_tokens)
+    """Find the most relevant response using TF-IDF."""
+    corpus = [entry["question"] for entry in knowledge_base]
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(corpus)
 
-    best_match = None
-    highest_similarity = 0
+    # Transform the user input
+    user_vector = vectorizer.transform([user_input])
 
-    for entry in knowledge_base:
-        question_tokens = preprocess(entry['question'])
-        question_vector = vectorize(question_tokens)
+    # Calculate cosine similarity
+    similarities = cosine_similarity(user_vector, tfidf_matrix)
+    best_match_index = similarities.argmax()
+    highest_similarity = similarities[0, best_match_index]
 
-        similarity = cosine_similarity(user_vector, question_vector)
-        if similarity > highest_similarity:
-            highest_similarity = similarity
-            best_match = entry
+    return knowledge_base[best_match_index] if highest_similarity > 0.1 else None
 
-    return best_match if highest_similarity > 0.1 else None
-
-# Greeting function to return a random greeting response
+# Greeting response
 def greeting_response():
     """Generate a random greeting response."""
     responses = [
@@ -102,7 +53,7 @@ def greeting_response():
     ]
     return random.choice(responses)
 
-# Exit function to return a goodbye response
+# Exit response
 def exit_response():
     """Generate a random exit response."""
     responses = [
@@ -110,6 +61,17 @@ def exit_response():
         "Bye! Take care!",
         "See you later! Goodbye!",
         "It was nice talking to you. Bye!"
+    ]
+    return random.choice(responses)
+
+# Fallback response when no match is found
+def fallback_response():
+    """Generate a fallback response when no match is found."""
+    responses = [
+        "Sorry, I didn't quite understand that.",
+        "I'm not sure how to respond to that.",
+        "Can you please rephrase your question?",
+        "I couldn't find an answer for that, please ask something else."
     ]
     return random.choice(responses)
 
@@ -122,7 +84,7 @@ def chat():
     if not user_input:
         return jsonify({"response": "Please provide a valid input."})
 
-    # Check if the user input is a greeting or exit command
+    # Check for greetings or exit commands
     greetings = ["hi", "hello", "hey", "how are you", "how's it going"]
     exits = ["exit", "bye", "goodbye"]
 
@@ -134,17 +96,15 @@ def chat():
     
     # Load the knowledge base
     knowledge_base = load_knowledge_base('knowledge_base.json')
-    
     if not knowledge_base:
         return jsonify({"response": "Sorry, the knowledge base is not available."})
     
-    # Find the best match for the user input from the knowledge base
+    # Find the best match
     best_match = find_best_match(user_input, knowledge_base)
-
     if best_match:
-        return jsonify({"response": best_match['answer']})
+        return jsonify({"response": best_match["answer"]})
     else:
-        return jsonify({"response": "I'm sorry, I didn't understand that."})
+        return jsonify({"response": fallback_response()})
 
 if __name__ == '__main__':
     app.run()
