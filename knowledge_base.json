@@ -1,26 +1,18 @@
 [
     {
         "question": "What is your name?",
-        "answer": "I am a custom chatbot."
+        "answer": "I am a chatbot powered Safe."
     },
     {
-        "question": "What can you do?",
-        "answer": "I can answer your questions based on my knowledge base."
+        "question": "How can I contact support?",
+        "answer": "You can contact support at support@example.com."
     },
     {
-        "question": "How does AI work?",
-        "answer": "AI works by analyzing data to learn patterns and make decisions without human intervention."
+        "question": "What is AI?",
+        "answer": "AI stands for Artificial Intelligence."
     },
     {
-        "question": "Tell me a joke.",
-        "answer": "Why dont skeletons fight each other? They dont have the guts!"
-    },
-    {
-        "question": "What is Python?",
-        "answer": "Python is a high-level, interpreted programming language known for its simplicity and readability."
-    },
-    {
-        "question": "ok",
-        "answer": "have a good day!"
+        "question": "What is machine learning?",
+        "answer": "Machine learning is a subset of AI that involves training algorithms on data to make predictions."
     }
 ]
